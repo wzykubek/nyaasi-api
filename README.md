@@ -4,13 +4,25 @@ Unofficial [nyaa.si](https://nyaa.si) HTTP API based on scrapping [NyaaPy Python
 
 ## Hosting
 
-+ Initialize virtualenv.
++ Initialize virtualenv (optional).
+```
+$ virtualenv venv
+```
 + Install requirements.
-+ Run `main.py` with `python3 main.py`.
+```
+$ pip install -r requirements
+```
++ Run server.
+```
+$ gunicorn main:app --log-file -
+```
 
-[![Deploy](https://www.herokucdn.com/deploy/button.svg)](https://heroku.com/deploy?template=https://github.com/samedamci/nyaasi-api)
+### One-click deploy to Heroku
+[![Deploy to Heroku](https://www.herokucdn.com/deploy/button.svg)](https://heroku.com/deploy?template=https://github.com/samedamci/nyaasi-api)
 
 ## Usage
+
+[Demo public instance.](https://nyaasi-api.herokuapp.com/)
 
 + All queries must be a GET requests.
 
