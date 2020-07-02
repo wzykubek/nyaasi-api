@@ -2,6 +2,14 @@
 
 Unofficial [nyaa.si](https://nyaa.si) HTTP API based on scrapping [NyaaPy Python library](https://github.com/JuanjoSalvador/NyaaPy).
 
+## Hosting
+
++ Initialize virtualenv.
++ Install requirements.
++ Run `main.py` with `python3 main.py`.
+
+[![Deploy](https://www.herokucdn.com/deploy/button.svg)](https://heroku.com/deploy?template=https://github.com/samedamci/nyaasi-api)
+
 ## Usage
 
 + All queries must be a GET requests.
@@ -49,9 +57,3 @@ Number (Cat.Sub) | Subcategory
 5.2 | Photos
 6.1 | Applications
 6.2 | Games
-
-## Hosting
-
-+ Initialize virtualenv.
-+ Install requirements.
-+ Run `main.py` with `python3 main.py`.
