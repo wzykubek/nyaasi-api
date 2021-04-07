@@ -33,7 +33,7 @@ $ curl "http://localhost:5000/?q=pokemon&category=2&subcategory=3"
 ### Parameters
 Parameter | Value
 :-- | :--
-q | query string (required)
+q | query string (optional)
 category | [category number](#categories) (optional, default 0)
 subcategory | [subcategory number](#categories) (optional, default 0)
 page | page number (optional, default 1, range: 0-1000)
