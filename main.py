@@ -1,6 +1,6 @@
 import requests
 from NyaaPy import Nyaa
-from flask import Flask, request, jsonify
+from flask import Flask, request, Response, json
 
 app = Flask(__name__)
 
@@ -47,20 +47,62 @@ def api():
             subcategory=subcategory,
             page=page,
         )
-        return jsonify(pageTorrent), 200
+        pageTorrentJson = json.dumps(pageTorrent, ensure_ascii=False)
+        if pageTorrentJson == "[]":
+            response = {'error': 'No results'}
+            responseJson = json.dumps(response, indent=4)
+            return responseJson, 400
+        else:
+            response = Response(pageTorrentJson, content_type="application/json; charset=utf-8")
+            return response, 200
     except requests.exceptions.ConnectionError:
-        return "Trouble reaching nyaa.si", 404
+        response = {'error': 'Trouble reaching nyaa.si'}
+        responseJson = json.dumps(response, indent=4)
+        return responseJson, 404
 
 
 @app.route("/view/<int:view_id>", methods=["GET"])
 def view(view_id):
     try:
         viewTorrent = Nyaa.get(view_id)
-        return jsonify(viewTorrent), 200
+        viewTorrentJson = json.dumps(viewTorrent, ensure_ascii=False)
+        response = Response(viewTorrentJson, content_type="application/json; charset=utf-8")
+        if viewTorrentJson == "[]":
+            response = {'error': 'No results'}
+            responseJson = json.dumps(response, indent=4)
+            return responseJson, 400
+        else:
+            return response, 200
     except IndexError:
-        return "Torrent not found", 400
+        response = {'error': 'Torrent not found'}
+        responseJson = json.dumps(response, indent=4)
+        return responseJson, 400
     except requests.exceptions.ConnectionError:
-        return "Trouble reaching nyaa.si", 404
+        response = {'error': 'Trouble reaching nyaa.si'}
+        responseJson = json.dumps(response, indent=4)
+        return responseJson, 404
+
+
+@app.route("/user/<username>", methods=["GET"])
+def user(username):
+    try:
+        viewTorrent = Nyaa.get_user(username)
+        viewTorrentJson = json.dumps(viewTorrent, ensure_ascii=False)
+        response = Response(viewTorrentJson, content_type="application/json; charset=utf-8")
+        if viewTorrentJson == "[]":
+            response = {'error': 'No results'}
+            responseJson = json.dumps(response, indent=4)
+            return responseJson, 400
+        else:
+            return response, 200
+    except IndexError:
+        response = {'error': 'Torrent not found'}
+        responseJson = json.dumps(response, indent=4)
+        return responseJson, 400
+    except requests.exceptions.ConnectionError:
+        response = {'error': 'Trouble reaching nyaa.si'}
+        responseJson = json.dumps(response, indent=4)
+        return responseJson, 404
 
 
 if __name__ == "__main__":
