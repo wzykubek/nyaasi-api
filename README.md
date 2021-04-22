@@ -1,44 +1,32 @@
 # nyaa.si API
 
-Unofficial [nyaa.si](https://nyaa.si) HTTP API based on scrapping [NyaaPy Python library](https://github.com/JuanjoSalvador/NyaaPy).
-
-## Hosting
-
-+ Initialize virtualenv (optional).
-```
-$ virtualenv venv
-```
-+ Install requirements.
-```
-$ pip install -r requirements
-```
-+ Run server.
-```
-$ gunicorn main:app --log-file -
-```
-
-### One-click deploy to Heroku
-[![Deploy to Heroku](https://www.herokucdn.com/deploy/button.svg)](https://heroku.com/deploy?template=https://github.com/samedamci/nyaasi-api)
+Unofficial [nyaa.si](https://nyaa.si) HTTP API based on
+scrapping [NyaaPy Python library](https://github.com/JuanjoSalvador/NyaaPy).
 
 ## Usage
-
-[Demo public instance.](https://nyaasi-api.herokuapp.com/)
 
 + All queries must be a GET requests.
 
 ### Example request with cURL
+
 ```
-$ curl "http://localhost:5000/?q=pokemon&category=2&subcategory=3"
+$ curl "http://localhost:5000/?q=pokemon&category=2&subcategory=2&filters=0&order=desc&sort=seeders"
 ```
+
 ### Parameters
+
 Parameter | Value
-:-- | :--
-q | query string (optional)
+:-- | :-- q | query string (optional)
 category | [category number](#categories) (optional, default 0)
 subcategory | [subcategory number](#categories) (optional, default 0)
 page | page number (optional, default 1, range: 0-1000)
 
 ### Categories
+
+```
+@Query: category={int} (default: 0)
+```
+
 Number | Category
 :--- | :---
 0 | All categories and subcategories
@@ -50,6 +38,11 @@ Number | Category
 6 | Software
 
 ### Subcategories
+
+```
+@Query: subcategory={int} (default: 0)
+```
+
 Number (Cat.Sub) | Subcategory
 :--- | :---
 1.1 | Anime Music Video
@@ -69,3 +62,41 @@ Number (Cat.Sub) | Subcategory
 5.2 | Photos
 6.1 | Applications
 6.2 | Games
+
+### Filters
+
+```
+@Query: filters={int} (default: 0)
+```
+
+Number | Filter
+:--- | :---
+0 | No filter
+1 | No remakes
+2 | Trusted only
+
+### Order
+
+```
+@Query: order={desc|asc} (default: desc)
+```
+
+Value | Order
+:--- | :---
+desc | Descending order
+asc | Ascending order
+
+### Sort
+
+```
+@Query: sort={id} (default: id)
+```
+
+Value | Sort by
+:--- | :---
+id | Date added
+size | Size
+size | Seeders
+leechers | Leechers
+downloads | Completed
+comments | Comments

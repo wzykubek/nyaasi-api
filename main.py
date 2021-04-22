@@ -1,7 +1,9 @@
 import requests
-from NyaaPy import Nyaa
 from flask import Flask, request, Response, json
 
+from NyaaPy.nyaa import Nyaa
+
+nyaa = Nyaa()
 app = Flask(__name__)
 
 
@@ -40,13 +42,32 @@ def api():
     else:
         page = 1
 
+    if "sort" in requestArgs:
+        sort = str(requestArgs.get('sort'))
+    else:
+        sort = "id"
+
+    if "order" in requestArgs:
+        order = str(requestArgs.get('order'))
+    else:
+        order = "desc"
+
+    if "filters" in requestArgs:
+        filters = str(requestArgs.get('filters'))
+    else:
+        filters = 0
+
     try:
-        pageTorrent = Nyaa.search(
+        pageTorrent = nyaa.search(
             keyword=query,
             category=category,
             subcategory=subcategory,
             page=page,
+            filters=filters,
+            sort=sort,
+            order=order
         )
+
         pageTorrentJson = json.dumps(pageTorrent, ensure_ascii=False)
         if pageTorrentJson == "[]":
             response = {'error': 'No results'}
@@ -64,7 +85,7 @@ def api():
 @app.route("/view/<int:view_id>", methods=["GET"])
 def view(view_id):
     try:
-        viewTorrent = Nyaa.get(view_id)
+        viewTorrent = nyaa.get(view_id)
         viewTorrentJson = json.dumps(viewTorrent, ensure_ascii=False)
         response = Response(viewTorrentJson, content_type="application/json; charset=utf-8")
         if viewTorrentJson == "[]":
@@ -86,7 +107,7 @@ def view(view_id):
 @app.route("/user/<username>", methods=["GET"])
 def user(username):
     try:
-        viewTorrent = Nyaa.get_user(username)
+        viewTorrent = nyaa.get_user(username)
         viewTorrentJson = json.dumps(viewTorrent, ensure_ascii=False)
         response = Response(viewTorrentJson, content_type="application/json; charset=utf-8")
         if viewTorrentJson == "[]":
