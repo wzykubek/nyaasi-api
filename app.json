@@ -1,6 +1,6 @@
 {
   "name": "nyaa.si API",
-  "description": "Unofficial nyaa.si API",
+  "description": "Unofficial nyaa.si HTTP API based on scrapping NyaaPy Python library.",
   "repository": "https://github.com/samedamci/nyaasi-api",
   "keywords": ["nyaa-si", "unofficial-apis"]
 }
