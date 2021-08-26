@@ -1,9 +1,6 @@
-#!/usr/bin/env python3
-
-from flask import Flask, request, jsonify
+from flask import request, jsonify
 from NyaaPy import Nyaa
-
-app = Flask(__name__)
+from . import app
 
 
 @app.route("/", methods=["GET"])
@@ -45,7 +42,3 @@ def api():
         )
     else:
         return "Please specify required query argument."
-
-
-if __name__ == "__main__":
-    app.run(debug=True)
