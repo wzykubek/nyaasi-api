@@ -1,1 +1,1 @@
-web: gunicorn nyaasiapi:app --log-file -
+web: gunicorn -k uvicorn.workers.UvicornWorker nyaasiapi:app --log-file - 
